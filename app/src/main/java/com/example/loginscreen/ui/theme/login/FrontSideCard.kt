@@ -1,5 +1,7 @@
 package com.example.loginscreen.ui.theme.login
 
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonColors
@@ -13,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.example.loginscreen.ui.theme.Typography
 
 @Composable
-fun WelcomeContent(
+fun FrontSideCard(
     onClickSubscribe: () -> Unit
 ) {
     Text(
@@ -33,12 +35,10 @@ fun WelcomeContent(
 
     Button(
         modifier = Modifier
-            .size(
-                width = 250.dp,
-                height = 50.dp
-            ),
+            .fillMaxWidth()
+            .height(height = 50.dp),
         onClick = onClickSubscribe,
-        shape = shapes.extraLarge,
+        shape = shapes.medium,
         colors = ButtonColors(
             containerColor = Color.White,
             contentColor = Color(0xFFA939FA),

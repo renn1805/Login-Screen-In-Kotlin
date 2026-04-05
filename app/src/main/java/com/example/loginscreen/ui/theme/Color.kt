@@ -1,6 +1,7 @@
 package com.example.loginscreen.ui.theme
 
 import androidx.compose.ui.graphics.Color
+import androidx.core.graphics.toColorInt
 
 val Purple80 = Color(0xFFD0BCFF)
 val PurpleGrey80 = Color(0xFFCCC2DC)
@@ -9,3 +10,14 @@ val Pink80 = Color(0xFFEFB8C8)
 val Purple40 = Color(0xFF6650a4)
 val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
+
+val primaryLightBlue = Color(0xFFC6DCFF)
+val primaryBlue = Color(0xFF9CC2FF)
+
+val primaryLightPurple = Color(0xFFD9C6FF)
+val primaryPurple = Color(0xFFB89CFF)
+
+val backSideCardColor = Color(0xFF79ABFC)
+val frontSideCardColor = Color(0xFF9871FF)
+
+val transparentGray = Color(0x36FFFFFF)

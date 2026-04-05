@@ -1,5 +1,6 @@
 package com.example.loginscreen.ui.theme
 
+import androidx.compose.material3.ButtonColors
 import androidx.compose.ui.graphics.Color
 import androidx.core.graphics.toColorInt
 
@@ -21,3 +22,11 @@ val backSideCardColor = Color(0xFF79ABFC)
 val frontSideCardColor = Color(0xFF9871FF)
 
 val transparentGray = Color(0x36FFFFFF)
+val mediumBlue = Color(0xFF3686FF)
+
+val loginButtonColor = ButtonColors(
+    containerColor = mediumBlue,
+    contentColor = Color.White,
+    disabledContainerColor = primaryLightBlue,
+    disabledContentColor = transparentGray
+)

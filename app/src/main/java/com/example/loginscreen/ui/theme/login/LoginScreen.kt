@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.input.rememberTextFieldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -17,19 +18,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.loginscreen.ui.theme.*
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(visualizer: LoginViewModel = viewModel()) {
 
-    var rotated by remember { mutableStateOf(false) }
+    val globalState by visualizer.uiState.collectAsState()
+    val rotated = globalState.cardRotated
+
     val rotation by animateFloatAsState(
-        targetValue = if (rotated) 180f else 0f,
+        targetValue = if (globalState.cardRotated) 180f else 0f,
         animationSpec = tween(durationMillis = 2000)
     )
-
-    val userNameFieldState = rememberTextFieldState()
-    val passwordFieldState = rememberTextFieldState()
 
     val animatedStartColor by animateColorAsState(
         targetValue = if (!rotated) primaryLightPurple else primaryLightBlue,
@@ -40,7 +41,7 @@ fun LoginScreen() {
         animationSpec = tween(durationMillis = 2000)
     )
 
-    LoginBackground( colors = listOf( animatedStartColor, animatedEndColor ) )
+    LoginBackground(colors = listOf(animatedStartColor, animatedEndColor))
 
     Box(
         modifier = Modifier
@@ -53,25 +54,30 @@ fun LoginScreen() {
             animationSpec = tween(durationMillis = 2000)
         )
         LoginCard(
-            modifierContainer = Modifier
+            modifier = Modifier
                 .graphicsLayer {
                     rotationY = rotation
                     cameraDistance = 12f * density
                 }
                 .align(Alignment.Center)
                 .heightIn(min = 300.dp),
-            modifierContent = Modifier
-                .graphicsLayer {
-                    rotationY = if (rotation > 90f) 180f else 0f
-                }
-                .padding(horizontal = 23.dp, vertical = 40.dp),
-            onClickSubscribe = { rotated = !rotated },
-            onClickSubmit = { rotated = !rotated },
-            rotation = { rotation },
             containerColor = { cardColor },
-            userNameState = userNameFieldState,
-            passwordState = passwordFieldState
+            content = @Composable {
+                if (rotation <= 90f)
+                    FrontSideCard(
+                        onClickSubscribe = { visualizer.rotate() }
+                    );
+                else
+                    BackSideCard(
+                        onClickSubmit = { visualizer.rotate() },
+                        userNameState = globalState.userNameFieldState,
+                        passwordState = globalState.passwordFieldState,
+                        modifier = Modifier
+                            .graphicsLayer {
+                                rotationY = if (rotation > 90f) 180f else 0f
+                            },
+                    );
+            }
         )
-
     }
 }

@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.sizeIn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.input.TextFieldState
 import androidx.compose.material3.MaterialTheme.shapes
@@ -19,45 +20,21 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun LoginCard(
-    modifierContainer: Modifier = Modifier,
+    modifier: Modifier = Modifier,
     modifierContent: Modifier = Modifier,
-    rotation: () -> Float,
-    onClickSubscribe: () -> Unit,
-    onClickSubmit: () -> Unit,
     containerColor: () -> Color,
-    userNameState: TextFieldState,
-    passwordState: TextFieldState,
+    content: @Composable () -> Unit
 ) {
-
     Box(
-        modifier = modifierContainer
+        modifier = modifier
             .background(
                 color = containerColor(),
                 shape = shapes.large
             )
-            .fillMaxWidth()
-            .heightIn(min = 400.dp)
+            .sizeIn(minHeight = 300.dp, minWidth = 300.dp)
+            .padding(all = 20.dp),
+        contentAlignment = Alignment.Center
     ) {
-        Column(
-            modifier = modifierContent
-                .matchParentSize(),
-            verticalArrangement = Arrangement.spacedBy(
-                space = 23.dp,
-                alignment = Alignment.CenterVertically
-            ),
-            horizontalAlignment = Alignment.CenterHorizontally
-        ) {
-            if (rotation() <= 90f) {
-                FrontSideCard(
-                    onClickSubscribe = onClickSubscribe
-                )
-            } else {
-                BackSideCard(
-                    onClickSubmit = onClickSubmit,
-                    userNameState = userNameState,
-                    passwordState = passwordState,
-                )
-            }
-        }
+        content()
     }
 }

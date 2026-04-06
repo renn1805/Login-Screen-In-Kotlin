@@ -1,9 +1,11 @@
 package com.example.loginscreen.ui.theme.login
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -27,8 +29,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import com.example.loginscreen.R
 import com.example.loginscreen.ui.theme.Typography
+import com.example.loginscreen.ui.theme.frontSideCardColor
 import com.example.loginscreen.ui.theme.loginButtonColor
 import com.example.loginscreen.ui.theme.mediumBlue
+import com.example.loginscreen.ui.theme.primaryLightPurple
+import com.example.loginscreen.ui.theme.primaryPurple
 import com.example.loginscreen.ui.theme.transparentGray
 
 
@@ -55,7 +60,7 @@ fun BackSideCard(
                 .size(size = 80.dp)
                 .background(color = transparentGray, shape = shapes.extraLarge)
                 .padding(all = 20.dp),
-            tint = mediumBlue
+            tint = Color.White
         )
 
         Text(
@@ -97,10 +102,31 @@ fun BackSideCard(
                         if (showPassword) R.drawable.view_password else R.drawable.hidden_password
                     ),
                     contentDescription = "Localized description",
-                    tint = mediumBlue
+                    tint = Color.White
                 )
             }
 
+        }
+
+        Spacer(Modifier.height(10.dp))
+
+        Button(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(height = 50.dp),
+            onClick = onClickSubmit,
+            shape = shapes.medium,
+            colors = ButtonColors(
+                containerColor = Color.White,
+                contentColor = primaryPurple,
+                disabledContainerColor = Color.Transparent,
+                disabledContentColor = primaryLightPurple
+            ),
+        ) {
+            Text(
+                text = "ENTRAR",
+                style = Typography.titleLarge.copy(color = frontSideCardColor)
+            )
         }
 
         Button(
@@ -109,10 +135,16 @@ fun BackSideCard(
                 .height(height = 50.dp),
             onClick = onClickSubmit,
             shape = shapes.medium,
-            colors = loginButtonColor,
+            colors = ButtonColors(
+                containerColor = Color.Transparent,
+                contentColor = primaryPurple,
+                disabledContainerColor = Color.Transparent,
+                disabledContentColor = primaryLightPurple
+            ),
+            border = BorderStroke(width = 1.dp, color = Color.White)
         ) {
             Text(
-                text = "ENTRAR",
+                text = "NÃO TENHO CONTA",
                 style = Typography.titleLarge.copy(color = Color.White)
             )
         }

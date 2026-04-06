@@ -16,6 +16,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -25,59 +26,48 @@ import com.example.loginscreen.ui.theme.*
 fun LoginScreen(visualizer: LoginViewModel = viewModel()) {
 
     val globalState by visualizer.uiState.collectAsState()
-    val rotated = globalState.cardRotated
 
     val rotation by animateFloatAsState(
         targetValue = if (globalState.cardRotated) 180f else 0f,
         animationSpec = tween(durationMillis = 2000)
     )
 
-    val animatedStartColor by animateColorAsState(
-        targetValue = if (!rotated) primaryLightPurple else primaryLightBlue,
-        animationSpec = tween(durationMillis = 2000)
-    )
-    val animatedEndColor by animateColorAsState(
-        targetValue = if (!rotated) primaryPurple else primaryBlue,
-        animationSpec = tween(durationMillis = 2000)
-    )
 
-    LoginBackground(colors = listOf(animatedStartColor, animatedEndColor))
+    LoginBackground(
+        content = {
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(all = 20.dp)
+            ) {
 
-    Box(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(vertical = 40.dp, horizontal = 20.dp)
-    ) {
+                LoginCard(
+                    modifier = Modifier
+                        .graphicsLayer {
+                            rotationY = rotation
+                            cameraDistance = 12f * density
+                        }
+                        .align(Alignment.TopCenter)
+                        .heightIn(min = 300.dp),
+                    content = @Composable {
+                        if (rotation <= 90f)
+                            FrontSideCard(
+                                onClickSubscribe = { visualizer.rotate() }
+                            );
+                        else
+                            BackSideCard(
+                                onClickSubmit = { visualizer.rotate() },
+                                userNameState = globalState.userNameFieldState,
+                                passwordState = globalState.passwordFieldState,
+                                modifier = Modifier
+                                    .graphicsLayer {
+                                        rotationY = if (rotation > 90f) 180f else 0f
+                                    },
+                            );
+                    }
+                )
 
-        val cardColor by animateColorAsState(
-            targetValue = if (!rotated) frontSideCardColor else backSideCardColor,
-            animationSpec = tween(durationMillis = 2000)
-        )
-        LoginCard(
-            modifier = Modifier
-                .graphicsLayer {
-                    rotationY = rotation
-                    cameraDistance = 12f * density
-                }
-                .align(Alignment.Center)
-                .heightIn(min = 300.dp),
-            containerColor = { cardColor },
-            content = @Composable {
-                if (rotation <= 90f)
-                    FrontSideCard(
-                        onClickSubscribe = { visualizer.rotate() }
-                    );
-                else
-                    BackSideCard(
-                        onClickSubmit = { visualizer.rotate() },
-                        userNameState = globalState.userNameFieldState,
-                        passwordState = globalState.passwordFieldState,
-                        modifier = Modifier
-                            .graphicsLayer {
-                                rotationY = if (rotation > 90f) 180f else 0f
-                            },
-                    );
             }
-        )
-    }
+        }
+    )
 }

@@ -47,14 +47,14 @@ fun LoginTextField (
         lineLimits = TextFieldLineLimits.SingleLine,
         onTextLayout = null,
         interactionSource = null,
-        cursorBrush = SolidColor(value = mediumBlue),
+        cursorBrush = SolidColor(value = Color.White),
         outputTransformation = outputTransformation,
         decorator = { input ->
             Box(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(color = Color.Transparent, shape = shapes.medium)
-                    .border(width = 1.dp, color = mediumBlue, shape = shapes.medium)
+                    .border(width = 1.dp, color = Color.White, shape = shapes.medium)
                     .padding(horizontal = 20.dp, vertical = 10.dp),
                 contentAlignment = Alignment.CenterStart,
 

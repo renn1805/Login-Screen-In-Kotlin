@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.loginscreen.ui.theme.Typography
+import com.example.loginscreen.ui.theme.frontSideCardColor
 import com.example.loginscreen.ui.theme.primaryLightPurple
 import com.example.loginscreen.ui.theme.primaryPurple
 
@@ -65,7 +66,7 @@ fun FrontSideCard(
             Text(
                 text = "Inscrever-se",
                 style = Typography.titleLarge.copy(
-                    color = Color.Blue,
+                    color = frontSideCardColor,
                 )
             )
         }

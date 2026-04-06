@@ -15,24 +15,18 @@ import androidx.compose.material3.MaterialTheme.shapes
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.CornerRadius
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun LoginCard(
     modifier: Modifier = Modifier,
-    modifierContent: Modifier = Modifier,
-    containerColor: () -> Color,
     content: @Composable () -> Unit
 ) {
     Box(
-        modifier = modifier
-            .background(
-                color = containerColor(),
-                shape = shapes.large
-            )
-            .sizeIn(minHeight = 300.dp, minWidth = 300.dp)
-            .padding(all = 20.dp),
+        modifier = modifier,
         contentAlignment = Alignment.Center
     ) {
         content()

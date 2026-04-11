@@ -3,11 +3,14 @@ package com.example.loginscreen.ui.theme.login
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.input.rememberTextFieldState
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -40,32 +43,65 @@ fun LoginScreen(visualizer: LoginViewModel = viewModel()) {
                     .fillMaxSize()
                     .padding(all = 20.dp)
             ) {
-
-                LoginCard(
-                    modifier = Modifier
-                        .graphicsLayer {
-                            rotationY = rotation
-                            cameraDistance = 12f * density
+                if (globalState.user == null){
+                    LoginCard(
+                        modifier = Modifier
+                            .graphicsLayer {
+                                rotationY = rotation
+                                cameraDistance = 12f * density
+                            }
+                            .align(Alignment.TopCenter)
+                            .heightIn(min = 300.dp),
+                        content = @Composable {
+                            if (rotation <= 90f)
+                                FrontSideCard(
+                                    onClickSubscribe = { visualizer.rotate() }
+                                );
+                            else
+                                BackSideCard(
+                                    onClickSubmit = { visualizer.login() },
+                                    userNameState = globalState.emailFieldState,
+                                    passwordState = globalState.passwordFieldState,
+                                    modifier = Modifier
+                                        .graphicsLayer {
+                                            rotationY = if (rotation > 90f) 180f else 0f
+                                        },
+                                );
                         }
-                        .align(Alignment.TopCenter)
-                        .heightIn(min = 300.dp),
-                    content = @Composable {
-                        if (rotation <= 90f)
-                            FrontSideCard(
-                                onClickSubscribe = { visualizer.rotate() }
-                            );
-                        else
-                            BackSideCard(
-                                onClickSubmit = { visualizer.rotate() },
-                                userNameState = globalState.userNameFieldState,
-                                passwordState = globalState.passwordFieldState,
-                                modifier = Modifier
-                                    .graphicsLayer {
-                                        rotationY = if (rotation > 90f) 180f else 0f
-                                    },
-                            );
+                    )
+
+                } else {
+                    Column (
+                        verticalArrangement = Arrangement.spacedBy(15.dp, Alignment.CenterVertically),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.align(Alignment.Center)
+                    ){
+                        Text(
+                            text = "${globalState.user!!.name}",
+                            style = Typography.titleLarge.copy(
+                                color = Color.White
+                            )
+                        )
+                        Text(
+                            text = "id: ${globalState.user!!.id}",
+                            style = Typography.titleMedium.copy(
+                                color = Color.White
+                            )
+                        )
+                        Text(
+                            text = "email: ${globalState.user!!.email}",
+                            style = Typography.titleMedium.copy(
+                                color = Color.White
+                            )
+                        )
+                        Text(
+                            text = "position: ${globalState.user!!.position}",
+                            style = Typography.titleLarge.copy(
+                                color = Color.White
+                            )
+                        )
                     }
-                )
+                }
 
             }
         }
